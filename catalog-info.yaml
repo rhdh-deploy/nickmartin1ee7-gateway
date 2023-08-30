@@ -1,0 +1,68 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: nickmartin1ee7-poi-gateway-app-dev
+  annotations:
+    argocd/app-name: nickmartin1ee7-poi-gateway-app-dev
+    backstage.io/kubernetes-id: nickmartin1ee7-poi-gateway-app
+    backstage.io/kubernetes-namespace: nickmartin1ee7
+    backstage.io/techdocs-ref: dir:.
+    github.com/project-slug: rhdh-deploy/nickmartin1ee7-gateway
+    janus-idp.io/tekton-enabled: 'true'
+  tags:
+    - java
+    - quarkus
+    - maven
+    - workshop
+  links:
+    - url: https://console-openshift-console.apps.a1jxqhzp.eastus2.aroapp.io/dev-pipelines/ns/nickmartin1ee7/
+      title: Pipelines
+      icon: web
+    - url: https://console-openshift-console.apps.a1jxqhzp.eastus2.aroapp.io/k8s/ns/nickmartin1ee7/deployments/nickmartin1ee7-poi-gateway-app
+      title: Deployment
+      icon: web
+    - url: https://devspaces.apps.a1jxqhzp.eastus2.aroapp.io/#https://github.com/rhdh-deploy/nickmartin1ee7-gateway?che-editor=che-incubator/che-code/latest&devfilePath=.devfile-vscode.yaml
+      title: OpenShift Dev Spaces (VS Code)
+      icon: web
+spec:
+  type: service
+  lifecycle: production
+  owner: "user:default/nickmartin1ee7"
+  system: workshop-system-nickmartin1ee7
+  providesApis:
+    - gateway-api-nickmartin1ee7
+  consumesApis:
+    - backend-api-nickmartin1ee7
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: workshop-system-nickmartin1ee7
+  tags:
+    - backstage
+    - janus-idp
+    - openshift
+    - workshop
+    - rh-summit
+spec:
+  owner: "user:default/nickmartin1ee7"
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: gateway-api-nickmartin1ee7
+  description: API surface exposed to interact with Backends (summit POIs + parks data) via the Gateway
+  links:
+    - url: http://nickmartin1ee7-poi-gateway-app-nickmartin1ee7.apps.a1jxqhzp.eastus2.aroapp.io/q/swagger-ui
+      title: Swagger UI
+      icon: web
+    - url: https://github.com/rhdh-deploy/nickmartin1ee7-gateway/tree/main/src/main/resources/META-INF/openapi.yaml
+      title: API Spec
+      icon: code
+spec:
+  type: openapi
+  lifecycle: production
+  owner: "user:default/nickmartin1ee7"
+  system: workshop-system-nickmartin1ee7
+  definition:
+    $text: https://github.com/rhdh-deploy/nickmartin1ee7-gateway/tree/main/src/main/resources/META-INF/openapi.yaml
